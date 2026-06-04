@@ -3,8 +3,7 @@ import time
 import requests
 
 from v1.schemas import MessageRequest
-from v1.schemas import ClassificationRequest
-from v1.tools import send_email
+from v1.agent import agent, EmailDeps
 
 app = FastAPI(
     title="AI Email Router",
@@ -38,51 +37,17 @@ async def wait_for_model():
 def health():
     return {"status": "ok"}
     
-@app.post("/api/v1/messages")
-def route_message(request: MessageRequest):
+@app.post("/api/v1/route-messages")
+async def route_message(request: MessageRequest):
 
-    send_email(
-        to_email="other@example.com",
-        sender_email=request.email,
-        message_text=request.message
+    result = await agent.run(
+        request.message,
+        deps=EmailDeps(
+            sender_email=request.email,
+            original_message=request.message
+        )
     )
 
     return {
-        "status": "sent"
-    }
-
-@app.post("/api/v1/classify")
-def classify(request: ClassificationRequest):
-
-    prompt = f"""
-Wybierz jeden dział dla wiadomości.
-
-Dostępne działy:
-
-- human-resources@example.com
-- help-desk@example.com
-- it@example.com
-- kadry@example.com
-- other@example.com
-
-Wiadomość:
-
-{request.message}
-
-Odpowiedz wyłącznie adresem email działu.
-"""
-
-    response = requests.post(
-        "http://ollama:11434/api/generate",
-        json={
-            "model": "qwen3:4b",
-            "prompt": prompt,
-            "stream": False
-        }
-    )
-
-    result = response.json()
-
-    return {
-        "department": result["response"]
+        "status": "sent",
     }
