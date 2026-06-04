@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
 from v1.schemas import MessageRequest
+from v1.tools import send_email
 
 app = FastAPI(
     title="AI Email Router",
@@ -15,8 +16,13 @@ def health():
     
 @app.post("/api/v1/messages")
 def route_message(request: MessageRequest):
+
+    send_email(
+        to_email="other@example.com",
+        sender_email=request.email,
+        message_text=request.message
+    )
+
     return {
-        "email": request.email,
-        "message": request.message,
-        "status": "received"
+        "status": "sent"
     }
