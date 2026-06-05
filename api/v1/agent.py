@@ -1,4 +1,4 @@
-from pydantic_ai import Agent, RunContext
+from pydantic_ai import Agent, RunContext, ModelSettings
 from pydantic_ai.models.ollama import OllamaModel
 from pydantic_ai.providers.ollama import OllamaProvider
 
@@ -10,7 +10,7 @@ provider = OllamaProvider(
 )
 
 model = OllamaModel(
-    "llama3.2:3b",
+    "llama3.1:8b",
     provider=provider
 )
 
@@ -21,7 +21,11 @@ class EmailDeps:
 
 agent = Agent(
     model=model,
+    retries=3,
     deps_type=EmailDeps,
+    model_settings=ModelSettings(
+        temperature=0.0,
+    ),
     system_prompt="""
 Jesteś systemem routingu zgłoszeń.
 

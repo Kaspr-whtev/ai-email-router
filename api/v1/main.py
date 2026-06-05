@@ -24,7 +24,7 @@ async def wait_for_model():
 
             models = response.json()["models"]
 
-            if any(m["name"] == "llama3.2:3b" for m in models):
+            if any(m["name"] == "llama3.1:8b" for m in models):
                 print("Model available")
                 break
 
@@ -50,4 +50,6 @@ async def route_message(request: MessageRequest):
 
     return {
         "status": "sent",
+        "OUTPUT:": result.output,
+        "MESSAGES:": result.all_messages()
     }
