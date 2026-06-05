@@ -49,8 +49,9 @@ Oto lista modeli jakie przetestowałem oraz powód dlaczego przeszedłem do kole
 Dlatego skończyłem na modelu Llama3.1:8b.
 
 ### Możliwości usprawnienia
-Jeśli pisałbym tę aplikację od nowa, spróbowałbym rozwiązać problem kompatybilności modelu Qwen3:1.7 z pydantic_ai, na który natrafiłem.
+Przy kolejnej próbie stworzenia takiej aplikacji, spróbowałbym rozwiązać problem kompatybilności modelu Qwen3:1.7 z pydantic_ai, na który natrafiłem.
 Alternatywą jest wykorzystanie jednego z innych modeli Qwen3 i stworzenie własnej wersji z wyłączonym "thinking".
+Oba te rozwiązania usprawniły by proces instalacji i czas procesowania zapytania jednak w tej wersji skupiłem się nad stworzeniem systemu który przede wszystkim działa, optymalizacja będzię drugim krokiem.
 
 ## Kontenery docker
 W trakcie działania aplikacji działają 3 kontenery:
